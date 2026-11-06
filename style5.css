@@ -1,0 +1,430 @@
+  /* ==============================
+   AEROVISION — DARK SPACE THEME
+   ============================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050816;
+      --surface: #10182c;
+      --text: #f5f7ff;
+      --muted: #9caac5;
+      --blue: #4da8ff;
+      --purple: #9b7bff;
+      --border: rgba(255, 255, 255, 0.12);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(40, 93, 180, 0.20), transparent 38%),
+        radial-gradient(ellipse at 85% 75%, rgba(107, 65, 200, 0.15), transparent 35%),
+        var(--bg);
+
+      animation: pageReveal 1s ease both;
+    }
+
+    /* Subtle animated space stars */
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, #ffffff80 50%, transparent 100%),
+        radial-gradient(1px 1px at 70% 20%, #ffffff90 50%, transparent 100%),
+        radial-gradient(2px 2px at 85% 65%, #72baff90 50%, transparent 100%),
+        radial-gradient(1px 1px at 35% 80%, #ffffff80 50%, transparent 100%),
+        radial-gradient(1px 1px at 55% 50%, #ffffff80 50%, transparent 100%);
+
+      background-size: 300px 300px;
+      animation: starDrift 35s linear infinite;
+    }
+
+    /* ==============================
+   HEADER
+   ============================== */
+
+    header {
+      width: 100%;
+      min-height: 110px;
+      padding: 24px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      flex-wrap: wrap;
+
+      background: rgba(5, 8, 22, 0.72);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+
+      animation: slideDown 0.8s ease both;
+    }
+
+    /* Brand */
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      color: var(--text);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .brand span:last-child {
+      color: var(--blue);
+    }
+
+    .brand-icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+
+      color: white;
+      font-size: 21px;
+      border-radius: 14px;
+
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 0 25px rgba(77, 168, 255, 0.28);
+
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .brand:hover .brand-icon {
+      transform: rotate(-12deg) scale(1.1);
+      box-shadow: 0 0 35px rgba(77, 168, 255, 0.55);
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ==============================
+   MAIN SECTION
+   ============================== */
+
+    main {
+      width: min(1200px, 90%);
+      margin: 75px auto;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    main::before {
+      content: "EXPLORE THE UNIVERSE";
+      display: block;
+      margin-bottom: 15px;
+
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    main::after {
+      content: "Discover breathtaking views of planets, galaxies and our amazing universe.";
+      display: block;
+      margin-top: 28px;
+
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* ==============================
+   IMAGE COLLECTION
+   ============================== */
+
+    .image {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    /* Image card */
+
+    .img {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      padding: 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 24px;
+
+      background: linear-gradient(145deg,
+          rgba(24, 37, 65, 0.95),
+          rgba(10, 15, 31, 0.95));
+
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+
+      animation: cardAppear 0.8s ease both;
+      transition:
+        transform 0.45s ease,
+        border-color 0.45s ease,
+        box-shadow 0.45s ease;
+    }
+
+    /* Gradient glow */
+
+    .img::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+
+      background: linear-gradient(135deg,
+          var(--blue),
+          transparent 45%,
+          var(--purple));
+
+      transition: opacity 0.4s ease;
+    }
+
+    .img:hover {
+      transform: translateY(-12px) scale(1.015);
+      border-color: rgba(77, 168, 255, 0.7);
+
+      box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(77, 168, 255, 0.12);
+    }
+
+    .img:hover::before {
+      opacity: 0.25;
+    }
+
+    /* Planet image */
+
+    .img img {
+      display: block;
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+
+      border-radius: 16px;
+
+      transition:
+        transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+        filter 0.5s ease;
+    }
+
+    .img:hover img {
+      transform: scale(1.07);
+      filter: brightness(1.12) saturate(1.15);
+    }
+
+    /* Image title */
+
+    .img h3 {
+      margin: 20px 8px 16px;
+
+      color: var(--text);
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+
+      transition: color 0.3s ease;
+    }
+
+    .img:hover h3 {
+      color: var(--blue);
+    }
+
+    /* ==============================
+   VIEW BUTTON
+   ============================== */
+
+    .img a {
+      display: inline-block;
+      margin: 0 8px 10px;
+      text-decoration: none;
+    }
+
+    .img button {
+      position: relative;
+      overflow: hidden;
+      padding: 12px 27px;
+
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+
+      background: linear-gradient(135deg, #398bff, #7656f6);
+      box-shadow: 0 5px 20px rgba(77, 130, 255, 0.25);
+
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .img button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 80%;
+      height: 100%;
+
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent);
+
+      transform: skewX(-25deg);
+      transition: left 0.6s ease;
+    }
+
+    .img button:hover::before {
+      left: 140%;
+    }
+
+    .img button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 9px 30px rgba(77, 130, 255, 0.45);
+    }
+
+    .img button:active {
+      transform: scale(0.96);
+    }
+
+    /* ==============================
+   ANIMATIONS
+   ============================== */
+
+    @keyframes pageReveal {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes starDrift {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 300px 600px;
+      }
+    }
+
+    /* ==============================
+   RESPONSIVE DESIGN
+   ============================== */
+
+    @media (max-width: 650px) {
+      header {
+        padding: 22px 5%;
+        gap: 15px;
+      }
+
+      .brand {
+        font-size: 21px;
+      }
+
+      header p {
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      main {
+        width: 90%;
+        margin: 45px auto;
+      }
+
+      .image {
+        grid-template-columns: 1fr;
+      }
+
+      .img img {
+        height: 230px;
+      }
+    }
+
+    /* Respect reduced-motion preferences */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }

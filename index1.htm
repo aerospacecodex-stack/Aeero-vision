@@ -1,0 +1,1001 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050816">
+<title>AeroVision </title>
+ 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+ 
+<link rel="stylesheet" href="style4.css">
+</head>
+ 
+<body>
+ 
+<canvas id="stars" aria-hidden="true"></canvas>
+ 
+<header>
+    <div class="container navbar">
+        <a class="brand" href="#home" aria-label="AeroVision home">
+            <span class="brand-icon"><i class="fa-solid fa-satellite-dish"></i></span>
+            AERO<span>VISION</span>
+        </a>
+ 
+        <nav aria-label="Main navigation">
+            <ul class="nav-links" id="navLinks">
+                <li><a class="active" href="#home">Mission Control</a></li>
+                <li><a href="#disaster">Disaster Watch</a></li>
+                <li><a href="#missions">Missions</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#about">Our Solution</a></li>
+                <li><a href="#team">Team</a></li>
+               
+           <br><br>
+             <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Menu Section -->
+        <nav class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="index8.html" style="color: rgb(254, 252, 252);">Game</a></li>
+                <li><a href="index7.html" style="color: rgb(254, 252, 252);">Explore solar system</a></li>
+                <li><a href="index9.html" style="color: rgb(254, 252, 252);">Quiz</a></li>
+               
+            </ul>
+        </nav>
+         </ul>
+        </nav>
+ 
+        <div class="nav-right">
+            <div class="live-pill"><span class="live-dot"></span> LIVE UPDATE</div>
+            <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+ 
+        <!-- LOGIN BUTTON (click handler is attached in the script below) -->
+        <button class="login-btn" id="loginBtn" type="button">
+            <i class="fa-solid fa-user"></i> <span id="loginBtnText">Login</span>
+        </button>
+ 
+        <!-- LOGIN / SIGNUP MODAL -->
+        <div class="login-overlay" id="loginModal">
+            <div class="login-box">
+                <button class="close-btn" type="button" onclick="closeLogin()">&times;</button>
+ 
+                <div class="login-icon">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                </div>
+ 
+                <h2 id="modalTitleText">Welcome Back</h2>
+                <p id="modalSubText">Login to your AeroVision account</p>
+ 
+                <!-- LOGIN FORM -->
+                <form id="loginForm">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Email address" required>
+                    </div>
+ 
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                        <i class="fa-solid fa-eye password-toggle" onclick="togglePassword()"></i>
+                    </div>
+ 
+                    <div class="login-options">
+                        <label>
+                            <input type="checkbox" id="rememberMe" checked> Remember me
+                        </label>
+                        <a href='/forget1'>Forgot password?</a>
+                    </div>
+ 
+                    <button type="submit" class="submit-btn">Login</button>
+                </form>
+ 
+                <!-- SIGNUP FORM -->
+                <form id="signupForm" style="display: none;">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="signupEmail" placeholder="Email address" required>
+                    </div>
+ 
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="signupPassword" placeholder="Choose Password (min 6 characters)" minlength="6" required>
+                    </div>
+ 
+                    <button type="submit" class="submit-btn" style="margin-top: 15px;">Register Account</button>
+                </form>
+ 
+                <p class="signup-text" id="authSwitchText">
+                    Don't have an account?
+                    <a href="#" onclick="showSignup(event)">Sign up</a>
+                </p>
+ 
+                <p id="loginMessage" class="login-message" style="margin-top: 15px; text-align: center; font-size: 13px;"></p>
+            </div>
+        </div>
+ 
+    </div>
+</header>
+ 
+<main>
+    <!-- HERO / MISSION CONTROL -->
+    <section class="container hero" id="home">
+        <div class="hero-content">
+            <div class="eyebrow">EARTH INTELLIGENCE PLATFORM</div>
+            <h1>See Our Planet.<br><span class="gradient-text">Protect Our Future.</span></h1>
+            <p class="hero-description">
+                Explore Earth observation, discover space missions, and understand environmental hazards through one immersive intelligence dashboard. Turning satellite science into insights that can help communities prepare for a changing planet.
+            </p>
+ 
+            <div class="hero-actions">
+                <a href="#disaster" class="btn">Explore Disaster Watch <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#missions" class="btn btn-outline"><i class="fa-solid fa-satellite"></i> Explore Missions</a>
+            </div>
+ 
+            <div class="hero-trust">
+                <span><i class="fa-solid fa-check-circle"></i> Earth observation</span>
+                <span><i class="fa-solid fa-check-circle"></i> Disaster awareness</span>
+                <span><i class="fa-solid fa-check-circle"></i> Space exploration</span>
+            </div>
+        </div>
+ 
+        <div class="earth-scene" aria-label="Illustration of Earth in orbit">
+            <div class="orbit"></div>
+            <div class="earth"></div>
+            <i class="fa-solid fa-satellite satellite"></i>
+ 
+            <div class="float-card one">
+                <small><i class="fa-solid fa-globe cyan"></i> PLANET STATUS</small>
+                <strong>EARTH / 01</strong>
+            </div>
+ 
+            <div class="float-card two">
+                <small><i class="fa-solid fa-satellite-dish cyan"></i> ORBITAL NETWORK</small>
+                <strong>CONNECTED*</strong>
+            </div>
+ 
+            <div class="float-card three">
+                <small><i class="fa-regular fa-clock"></i> MISSION CLOCK</small>
+                <strong id="clock">--:--:-- UTC</strong>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- STATISTICS -->
+    <div class="dashboard-strip">
+        <div class="container stats-grid">
+            <div class="stat">
+                <div class="stat-icon"><i class="fa-solid fa-satellite"></i></div>
+                <div>
+                    <div class="stat-label">SATELLITE EXAMPLE</div>
+                    <div class="stat-value"><span class="counter" data-target="24">0</span></div>
+                    <div class="stat-note">Illustrative count*</div>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon" style="color:var(--pink)"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div>
+                    <div class="stat-label">SAMPLE HAZARDS</div>
+                    <div class="stat-value"><span class="counter" data-target="14">0</span></div>
+                    <div class="stat-note">Demo records only</div>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon" style="color:var(--purple)"><i class="fa-solid fa-earth-asia"></i></div>
+                <div>
+                    <div class="stat-label">PLANET MONITORED</div>
+                    <div class="stat-value">01 <span style="font-size:.7rem">EARTH</span></div>
+                    <div class="stat-note">Our shared home</div>
+                </div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon" style="color:var(--green)"><i class="fa-solid fa-shield-heart"></i></div>
+                <div>
+                    <div class="stat-label">PLATFORM STATUS</div>
+                    <div class="stat-value" style="font-size:1rem">ONLINE</div>
+                    <div class="stat-note">Interface operational</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- DISASTER WATCH -->
+    <section class="container section reveal" id="disaster">
+        <div class="section-head">
+            <div>
+                <div class="section-label">02 / ENVIRONMENTAL INTELLIGENCE</div>
+                <h2 class="section-title">Disaster <span class="cyan">Watch</span></h2>
+                <p class="section-description">
+                    Explore example hazard scenarios and learn how Earth observation can support early awareness, risk mapping, and emergency planning.
+                </p>
+            </div>
+            <span class="tag yellow"><i class="fa-solid fa-flask"></i> DEMO DATASET</span>
+        </div>
+ 
+        <div class="filters" id="hazardFilters">
+            <button class="filter-btn active" data-filter="all">All Hazards</button>
+            <button class="filter-btn" data-filter="fire">Wildfires</button>
+            <button class="filter-btn" data-filter="storm">Storms</button>
+            <button class="filter-btn" data-filter="flood">Floods</button>
+            <button class="filter-btn" data-filter="earthquake">Earthquakes</button>
+        </div>
+ 
+        <div class="hazard-grid" id="hazardGrid">
+            <article class="panel hazard-card" data-type="fire">
+                <div class="hazard-image" style="background-image:url('https://images.unsplash.com/photo-1615092296061-e2ccfeb2f3d6?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D')">
+                    <span class="tag red"><i class="fa-solid fa-fire"></i> HIGH RISK / EXAMPLE</span>
+                </div>
+                <div class="panel-body">
+                    <div class="hazard-location"><i class="fa-solid fa-location-dot"></i> Forest monitoring scenario</div>
+                    <h3>Wildfire Detection</h3>
+                    <p>Thermal imagery and vegetation observations can help identify potential fire activity and track changes in burn areas.</p>
+                    <div class="hazard-meta"><span>Data type</span><strong>Thermal / Optical</strong></div>
+                    <div class="hazard-meta"><span>Record</span><strong>AV-FIRE-001</strong></div>
+                      </div>
+            </article>
+ 
+            <article class="panel hazard-card" data-type="storm">
+                <div class="hazard-image" style="background-image:url('https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=800&q=80')">
+                    <span class="tag yellow"><i class="fa-solid fa-cloud-bolt"></i> MONITOR / EXAMPLE</span>
+                </div>
+                <div class="panel-body">
+                    <div class="hazard-location"><i class="fa-solid fa-location-dot"></i> Coastal monitoring scenario</div>
+                    <h3>Cyclone & Storm Tracking</h3>
+                    <p>Cloud patterns, sea-surface observations, and weather satellite imagery help meteorologists assess evolving storm systems.</p>
+                    <div class="hazard-meta"><span>Data type</span><strong>Weather imagery</strong></div>
+                    <div class="hazard-meta"><span>Record</span><strong>AV-STORM-002</strong></div>
+                       </div>
+            </article>
+ 
+            <article class="panel hazard-card" data-type="flood">
+                <div class="hazard-image" style="background-image:url('https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=800&q=80')">
+                    <span class="tag blue"><i class="fa-solid fa-water"></i> OBSERVE / EXAMPLE</span>
+                </div>
+                <div class="panel-body">
+                    <div class="hazard-location"><i class="fa-solid fa-location-dot"></i> River basin scenario</div>
+                    <h3>Flood Inundation Mapping</h3>
+                    <p>Synthetic Aperture Radar can help map flood extent, including in cloudy conditions, when suitable imagery is available.</p>
+                    <div class="hazard-meta"><span>Data type</span><strong>SAR / Optical</strong></div>
+                    <div class="hazard-meta"><span>Record</span><strong>AV-FLOOD-003</strong></div>
+                     </div>
+            </article>
+ 
+            <article class="panel hazard-card" data-type="earthquake">
+                <div class="hazard-image" style="background-image:url('https://plus.unsplash.com/premium_photo-1695914233513-6f9ca230abdb?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D')">
+                    <span class="tag purple"><i class="fa-solid fa-house-crack"></i> ANALYSIS / EXAMPLE</span>
+                </div>
+                <div class="panel-body">
+                    <div class="hazard-location"><i class="fa-solid fa-location-dot"></i> Seismic analysis scenario</div>
+                    <h3>Earthquake Impact Assessment</h3>
+                    <p>Satellite imagery can help assess infrastructure changes, ground deformation, and affected areas after an earthquake.</p>
+                    <div class="hazard-meta"><span>Data type</span><strong>InSAR / Optical</strong></div>
+                    <div class="hazard-meta"><span>Record</span><strong>AV-QUAKE-004</strong></div>
+                </div>
+            </article>
+ 
+            <article class="panel hazard-card" data-type="fire">
+                <div class="hazard-image" style="background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80')">
+                    <span class="tag green"><i class="fa-solid fa-leaf"></i> ECOLOGY / EXAMPLE</span>
+                </div>
+                <div class="panel-body">
+                    <div class="hazard-location"><i class="fa-solid fa-location-dot"></i> Forest ecosystem scenario</div>
+                    <h3>Forest Change Monitoring</h3>
+                    <p>Repeated satellite observations help researchers study forest cover, vegetation health, and long-term ecosystem change.</p>
+                    <div class="hazard-meta"><span>Data type</span><strong>Multispectral</strong></div>
+                    <div class="hazard-meta"><span>Record</span><strong>AV-ECO-005</strong></div>
+                </div>
+            </article>
+ 
+            <article class="panel hazard-card" data-type="storm">
+                <div class="hazard-image" style="background-image:url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=800&q=80')">
+                    <span class="tag blue"><i class="fa-solid fa-temperature-high"></i> CLIMATE / EXAMPLE</span>
+                </div>
+                <div class="panel-body">
+                    <div class="hazard-location"><i class="fa-solid fa-location-dot"></i> Climate observation scenario</div>
+                    <h3>Land Surface Heat</h3>
+                    <p>Thermal satellite products can help identify urban heat patterns and support local heat-risk planning.</p>
+                    <div class="hazard-meta"><span>Data type</span><strong>Thermal / Climate</strong></div>
+                    <div class="hazard-meta"><span>Record</span><strong>AV-HEAT-006</strong></div>
+                </div>
+            </article>
+        </div>
+        <br>
+
+        <a href='index6.html'><button type="button" id="visit-more">Explore more disaster  <i class="fa-solid fa-arrow-right"></i></button></a>
+ 
+        <br><br><br>
+        <div class="intelligence-grid">
+            <div class="panel map-panel">
+                <div class="map-caption">
+                    <div>
+                        <h3><i class="fa-solid fa-earth-americas cyan"></i> Global Observation View</h3>
+                        <p>Illustrative hazard markers — not live coordinates</p>
+                    </div>
+                    <span class="tag blue">SIMULATION</span>
+                </div>
+                <div class="map-globe">
+                    <span class="map-marker marker-one"></span>
+                    <span class="map-marker marker-two"></span>
+                    <span class="map-marker marker-three"></span>
+                </div>
+            </div>
+ 
+            <div class="panel activity-list">
+                <div class="panel-top">
+                    <h3>Observation Feed</h3>
+                    <span class="tag green">SAMPLE</span>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon"><i class="fa-solid fa-fire"></i></div>
+                    <div><h4>Thermal anomaly review</h4><p>Example wildfire analysis workflow</p></div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon" style="color:var(--yellow);background:rgba(255,209,102,.1)"><i class="fa-solid fa-cloud-bolt"></i></div>
+                    <div><h4>Atmospheric observation</h4><p>Example storm monitoring workflow</p></div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon" style="color:var(--cyan);background:rgba(70,234,255,.1)"><i class="fa-solid fa-water"></i></div>
+                    <div><h4>Surface water analysis</h4><p>Example flood mapping workflow</p></div>
+                </div>
+            </div>
+        </div>
+ 
+        <p class="muted" style="font-size:.73rem;line-height:1.8;margin-top:20px">
+            <i class="fa-solid fa-circle-info cyan"></i>
+            All hazard cards, statuses, markers, and counts in this prototype are illustrative. They are not emergency alerts. Connect verified satellite products and official warning services before using this platform for real-world decisions.
+        </p>
+    </section>
+ 
+    <!-- MISSIONS -->
+    <section class="section" id="missions" style="background:rgba(12,18,38,.35);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+        <div class="container reveal">
+            <div class="section-head">
+                <div>
+                    <div class="section-label">03 / ORBITAL EXPLORATION</div>
+                    <h2 class="section-title">Missions That <span class="gradient-text">Matter</span></h2>
+                    <p class="section-description">Discover selected Indian and international Earth-observation and space science missions.</p>
+                </div>
+                <a href="https://www.isro.gov.in/" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-small">Official ISRO <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+ 
+            <div class="mission-grid">
+                <article class="panel">
+                    <div class="mission-art"><i class="fa-solid fa-satellite"></i></div>
+                    <div class="panel-body">
+                        <div class="mission-code">INDIA / EARTH OBSERVATION</div>
+                        <h3>Cartosat Series</h3>
+                        <p>High-resolution Earth imaging missions designed to support cartography, mapping, urban planning, and infrastructure observation.</p>
+                        <div class="mission-footer"><span class="tag blue">OPTICAL IMAGING</span><a class="cyan" href="https://www.isro.gov.in/" target="_blank" rel="noopener noreferrer" aria-label="Learn about Cartosat on ISRO"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    </div>
+                </article>
+ 
+                <article class="panel">
+                    <div class="mission-art purple-art"><i class="fa-solid fa-water"></i></div>
+                    <div class="panel-body">
+                        <div class="mission-code">INDIA / OCEAN SCIENCE</div>
+                        <h3>Oceansat-3 (EOS-06)</h3>
+                        <p>Observes ocean colour, ocean biological conditions, and related atmospheric and marine parameters useful for ocean studies.</p>
+                        <div class="mission-footer"><span class="tag purple">OCEAN OBSERVATION</span><a class="cyan" href="https://www.isro.gov.in/" target="_blank" rel="noopener noreferrer" aria-label="Learn about Oceansat on ISRO"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    </div>
+                </article>
+ 
+                <article class="panel">
+                    <div class="mission-art orange-art"><i class="fa-solid fa-cloud"></i></div>
+                    <div class="panel-body">
+                        <div class="mission-code">INDIA / RADAR IMAGING</div>
+                        <h3>EOS-04 (RISAT-1A)</h3>
+                        <p>A radar imaging satellite designed to acquire Earth observations in varied weather and lighting conditions.</p>
+                        <div class="mission-footer"><span class="tag yellow">SAR IMAGING</span><a class="cyan" href="https://www.isro.gov.in/" target="_blank" rel="noopener noreferrer" aria-label="Learn about EOS-04 on ISRO"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    </div>
+                </article>
+ 
+                <article class="panel">
+                    <div class="mission-art purple-art"><i class="fa-solid fa-moon"></i></div>
+                    <div class="panel-body">
+                        <div class="mission-code">INDIA / LUNAR EXPLORATION</div>
+                        <h3>Chandrayaan-3</h3>
+                        <p>India's lunar mission demonstrated a successful soft landing and surface rover operations near the Moon's south polar region.</p>
+                        <div class="mission-footer"><span class="tag purple">LUNAR SCIENCE</span><a class="cyan" href="https://www.isro.gov.in/Chandrayaan3.html" target="_blank" rel="noopener noreferrer" aria-label="Learn about Chandrayaan-3"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    </div>
+                </article>
+ 
+                <article class="panel">
+                    <div class="mission-art"><i class="fa-solid fa-sun"></i></div>
+                    <div class="panel-body">
+                        <div class="mission-code">INDIA / SOLAR OBSERVATION</div>
+                        <h3>Aditya-L1</h3>
+                        <p>India's solar observatory mission studies the Sun and solar phenomena from a halo orbit around the Sun–Earth L1 region.</p>
+                        <div class="mission-footer"><span class="tag blue">HELIOPHYSICS</span><a class="cyan" href="https://www.isro.gov.in/" target="_blank" rel="noopener noreferrer" aria-label="Learn about Aditya-L1 on ISRO"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    </div>
+                </article>
+ 
+                <article class="panel">
+                    <div class="mission-art orange-art"><i class="fa-solid fa-earth-americas"></i></div>
+                    <div class="panel-body">
+                        <div class="mission-code">NASA / EARTH SCIENCE</div>
+                        <h3>Landsat Program</h3>
+                        <p>A long-running Earth observation program that provides imagery for studying land cover, agriculture, water, and environmental change.</p>
+                        <div class="mission-footer"><span class="tag green">LAND MONITORING</span><a class="cyan" href="https://landsat.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer" aria-label="Learn about Landsat"><i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- GALLERY -->
+    <section class="container section reveal" id="gallery">
+        <div class="section-head">
+            <div>
+                <div class="section-label">04 / THE COSMIC ARCHIVE</div>
+                <h2 class="section-title">A Universe of <span class="cyan">Discovery</span></h2>
+                <p class="section-description">Explore a visual collection inspired by our planet, distant galaxies, and the phenomena that connect Earth to space.</p>
+            </div>
+            <span class="tag purple"><i class="fa-solid fa-images"></i> VISUAL ARCHIVE</span>
+        </div>
+ 
+        <div class="gallery-grid">
+            <div class="gallery-card" tabindex="0" role="button" aria-label="View Earth from orbit" data-title="Earth From Orbit" data-description="Our planet seen from space, where atmospheric systems, oceans, and continents form one interconnected Earth system." data-image="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=90">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=85" alt="Earth and atmospheric glow seen from space">
+                <span class="gallery-zoom"><i class="fa-solid fa-expand"></i></span>
+                <div class="gallery-info"><h3>Earth From Orbit</h3><p>Our home, viewed from above.</p></div>
+            </div>
+ 
+            <div class="gallery-card" tabindex="0" role="button" aria-label="View deep space" data-title="Deep Space" data-description="Deep space observations reveal stars, galaxies, and the processes that shape the universe." data-image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1400&q=90">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=800&q=85" alt="Colourful nebula and distant stars">
+                <span class="gallery-zoom"><i class="fa-solid fa-expand"></i></span>
+                <div class="gallery-info"><h3>Deep Space</h3><p>Into the stellar frontier.</p></div>
+            </div>
+ 
+            <div class="gallery-card" tabindex="0" role="button" aria-label="View the Moon" data-title="The Moon" data-description="Lunar exploration advances our understanding of the Moon's surface, geology, and potential for future exploration." data-image="https://images.unsplash.com/photo-1760550773103-344f88e5d78d?q=80&w=583&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1760550773103-344f88e5d78d?q=80&w=583&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Moon surface">
+                <div class="gallery-info"><h3>Lunar Frontier</h3><p>New horizons beyond Earth.</p></div>
+            </div>
+        </div>
+        <br>
+        <a href='index2.html'><button class="btn1">explore more<i class="fa-solid fa-arrow-right"></i></button></a>
+    </section>
+ 
+    <!-- ABOUT -->
+    <section class="section" id="about" style="background:rgba(12,18,38,.35);border-top:1px solid var(--border)">
+        <div class="container about-grid reveal">
+            <div class="about-visual">
+                <div class="about-visual-label">
+                    <small>AEROVISION / OUR VISION</small>
+                    <h3>From orbital observations to meaningful insights.</h3>
+                </div>
+            </div>
+ 
+            <div>
+                <div class="section-label">05 / ABOUT THE PROJECT</div>
+                <h2 class="section-title">Technology for a <span class="gradient-text">Safer Planet</span></h2>
+                <p class="section-description">
+                    AeroVision is a space and Earth observation dashboard concept created to make satellite science easier to explore. It brings disaster-awareness workflows, mission information, and educational resources together in a single interface.
+                </p>
+ 
+                <ul class="feature-list">
+                    <li><i class="fa-solid fa-circle-check"></i><div><strong>Earth Observation</strong><span>Learn how optical, thermal, and radar imagery can help researchers study changes across our planet.</span></div></li>
+                    <li><i class="fa-solid fa-circle-check"></i><div><strong>Disaster Awareness</strong><span>Explore example workflows for fire, flood, storm, and post-event impact assessment.</span></div></li>
+                    <li><i class="fa-solid fa-circle-check"></i><div><strong>Space Education</strong><span>Discover selected missions and the science behind satellites, lunar exploration, and solar observation.</span></div></li>
+                    <li><i class="fa-solid fa-circle-check"></i><div><strong>Future Data Integration</strong><span>Designed for future connection to verified public satellite products, APIs, and geospatial mapping services.</span></div></li>
+                </ul>
+ 
+                <a href="#team" class="btn">Meet the Team <i class="fa-solid fa-arrow-right"></i></a>
+ 
+                <div class="impact-grid">
+                    <div class="impact-card"><strong>24/7</strong><span>Design goal for monitoring</span></div>
+                    <div class="impact-card"><strong>4+</strong><span>Hazard categories explored</span></div>
+                    <div class="impact-card"><strong>1</strong><span>Shared planet</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- TEAM -->
+    <section class="container section reveal" id="team">
+        <div class="section-head">
+            <div>
+                <div class="section-label">06 / PEOPLE BEHIND THE MISSION</div>
+                <h2 class="section-title">Meet Our <span class="cyan">Team</span></h2>
+                <p class="section-description">A multidisciplinary team concept combining design, space science, data analysis, and engineering.</p>
+            </div>
+        </div>
+ 
+        <div class="team-grid">
+            <a href='index3.htm'>
+                <article class="panel team-card">
+                    <div class="avatar">RY</div>
+                    <h3>Ravi Yadav</h3>
+                    <p>Web-devoloper</p>
+                </article>
+            </a>
+            <a href='index5.html'>
+                <article class="panel team-card">
+                    <div class="avatar" style="color:var(--purple)">SG</div>
+                    <h3>Shreyash Gautam</h3>
+                    <p>Idea and topic teller</p>
+                </article>
+            </a>
+            <a href='index4.html'>
+                <article class="panel team-card">
+                    <div class="avatar" style="color:var(--cyan)">HY</div>
+                    <h3>Himanshu Yadav</h3>
+                    <p>Web-devoloper</p>
+                </article>
+            </a>
+        </div>
+    </section>
+ 
+    <!-- CALL TO ACTION -->
+    <section class="container cta reveal">
+        <div>
+            <div class="section-label">THE NEXT FRONTIER</div>
+            <h2>Curiosity is our <span class="cyan">launchpad.</span></h2>
+            <p>Explore official Earth observation resources, discover the missions studying our planet, and help make space science accessible to everyone.</p>
+        </div>
+        <a class="btn" href="https://www.isro.gov.in/" target="_blank" rel="noopener noreferrer">Explore ISRO Earth <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </section>
+</main>
+ 
+<!-- Circular Chatbot Toggle Button -->
+<button class="chatbot-toggle" id="chatbotToggle" aria-label="Open Chatbot">
+    <svg viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z" />
+    </svg>
+</button>
+ 
+<!-- Chatbot Popup Window -->
+<div class="chatbot-box" id="chatbotBox">
+    <div class="chatbot-header">
+        <div class="chatbot-title">
+            <div class="chatbot-avatar">🤖</div>
+            <div class="chatbot-info">
+                <strong>Aero-Vision Assistant</strong>
+                <small>● Online</small>
+            </div>
+        </div>
+        <button class="chatbot-close-btn" id="chatbotClose" aria-label="Close Chatbot">✕</button>
+    </div>
+ 
+    <div class="chatbot-messages" id="chatbotMessages">
+        <div class="chat-msg bot">👋 Hello! How can I help you with Aero Vision today?</div>
+    </div>
+ 
+    <div class="chatbot-input-area">
+        <input type="text" id="chatbotInput" placeholder="Type a message..." autocomplete="off">
+        <button class="chatbot-send-btn" id="chatbotSend" aria-label="Send Message">➤</button>
+    </div>
+</div>
+ 
+<footer>
+    <div class="container footer-inner">
+        <div>
+            <a class="brand" href="#home"><span class="brand-icon"><i class="fa-solid fa-satellite-dish"></i></span>AERO<span>VISION</span></a>
+            <p class="footer-copy" style="margin-top:12px">Space exploration. Earth intelligence. A better-informed future.</p>
+        </div>
+ 
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#disaster">Disaster Watch</a>
+            <a href="#missions">Missions</a>
+            <a href="#about">About</a>
+        </div>
+ 
+        <!-- FEEDBACK BUTTON TRIGGER -->
+        <div class="footer-feedback-trigger">
+            <button class="open" id="openFeedbackBtn" >
+                <i class="fa-solid fa-message"></i> Send Feedback
+            </button>
+        </div>
+    </div>
+</footer>
+ 
+<!-- FEEDBACK MODAL (HIDDEN BY DEFAULT) -->
+<div class="login-overlay" id="feedbackModal">
+    <div class="login-box">
+        <button class="close-btn" id="closeFeedbackBtn">&times;</button>
+ 
+        <div class="login-icon">
+            <i class="fa-solid fa-paper-plane"></i>
+        </div>
+ 
+        <h2>Send Feedback</h2>
+        <p>Have questions or suggestions for AeroVision?</p>
+ 
+        <form action="https://api.web3forms.com/submit" method="POST" id="feedbackForm">
+            <input type="hidden" name="access_key" value="6101fc5d-a701-4f61-923c-43c84bb0405f">
+ 
+            <br>
+            <div class="h3"><h3>E-mail:</h3></div>
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" name="email" placeholder="Your email address" required>
+            </div>
+            <br>
+            <div class="h4"><h3>Feed back:</h3></div>
+            <div class="input-group">
+                <i class="fa-solid fa-comment"></i>
+                <textarea name="message" cols="100" required></textarea>
+            </div>
+            <br>
+            <br>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</div>
+ 
+<!-- IMAGE / DETAIL MODAL -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+        <button class="modal-close" id="modalClose" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
+        <img id="modalImage" src="" alt="" style="display:none">
+        <div class="modal-copy">
+            <h3 id="modalTitle">Details</h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+</div>
+ 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+ 
+ 
+<script>
+(() => {
+  'use strict';
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const toast = $('#toast');
+  let toastTimer;
+  function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+  }
+  window.showToast = showToast;
+ 
+  // Animated starfield canvas
+  const canvas = $('#stars');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let stars = [], width = 0, height = 0, raf = 0;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function resizeStars() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth; height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
+      canvas.style.width = width + 'px'; canvas.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = Math.min(170, Math.floor((width * height) / 8500));
+      stars = Array.from({length: count}, () => ({x:Math.random()*width, y:Math.random()*height, r:Math.random()*1.35+.25, alpha:Math.random()*.6+.2, speed:Math.random()*.22+.035, phase:Math.random()*Math.PI*2}));
+      drawStars(0);
+    }
+    function drawStars(time) {
+      ctx.clearRect(0,0,width,height);
+      for (const star of stars) {
+        const twinkle = reducedMotion ? 1 : .65 + Math.sin(time*.001*star.speed*8 + star.phase)*.35;
+        ctx.beginPath(); ctx.arc(star.x, star.y, star.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(190,225,255,${star.alpha*twinkle})`; ctx.fill();
+        if (!reducedMotion) { star.y += star.speed*.16; if (star.y > height) { star.y = -2; star.x = Math.random()*width; } }
+      }
+      if (!reducedMotion) raf = requestAnimationFrame(drawStars);
+    }
+    window.addEventListener('resize', resizeStars, {passive:true});
+    resizeStars();
+    if (!reducedMotion) raf = requestAnimationFrame(drawStars);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(raf); else if (!reducedMotion) raf = requestAnimationFrame(drawStars); });
+  }
+ 
+  // Reveal sections on scroll
+  const revealItems = $$('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -35px 0px'});
+    revealItems.forEach(el => revealObserver.observe(el));
+  } else revealItems.forEach(el => el.classList.add('visible'));
+  $$('.hero .reveal').forEach(el => el.classList.add('visible'));
+ 
+  // Navbar, active section, mobile menu
+  const header = $('header');
+  const nav = $('#navLinks');
+  const menuBtn = $('#menuBtn');
+  const navLinks = $$('#navLinks a');
+  function closeMenu() {
+    if (nav) nav.classList.remove('open');
+    if (menuBtn) { menuBtn.setAttribute('aria-expanded','false'); const icon = $('i', menuBtn); if (icon) icon.className = 'fa-solid fa-bars'; }
+  }
+  if (menuBtn && nav) menuBtn.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(isOpen));
+    const icon = $('i', menuBtn); if (icon) icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+  });
+  navLinks.forEach(link => link.addEventListener('click', closeMenu));
+  function updateHeader() { if (header) header.classList.toggle('scrolled', window.scrollY > 18); }
+  window.addEventListener('scroll', updateHeader, {passive:true}); updateHeader();
+  const sections = navLinks.map(a => $(a.getAttribute('href'))).filter(Boolean);
+  if ('IntersectionObserver' in window && sections.length) {
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id)); });
+    }, {rootMargin:'-30% 0px -55% 0px'});
+    sections.forEach(section => sectionObserver.observe(section));
+  }
+ 
+  // UTC clock and footer year
+  const clock = $('#clock');
+  function updateClock() { if (clock) clock.textContent = new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date()) + ' UTC'; }
+  updateClock(); setInterval(updateClock,1000);
+  const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
+ 
+  // Hazard filters
+  const filterWrap = $('#hazardFilters');
+  if (filterWrap) filterWrap.addEventListener('click', event => {
+    const button = event.target.closest('[data-filter]'); if (!button) return;
+    $$('.filter-btn', filterWrap).forEach(btn => btn.classList.toggle('active', btn === button));
+    const filter = button.dataset.filter;
+    $$('.hazard-card').forEach(card => {
+      const show = filter === 'all' || card.dataset.type === filter;
+      card.hidden = !show;
+      if (show) { card.animate?.([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}],{duration:320,easing:'ease-out'}); }
+    });
+  });
+ 
+  // Gallery + detail modal
+  const modal = $('#modal'); const modalTitle = $('#modalTitle'); const modalDescription = $('#modalDescription'); const modalImage = $('#modalImage');
+  function openDetail(title, description, image = '') {
+    if (!modal) return;
+    if (modalTitle) modalTitle.textContent = title || 'Details';
+    if (modalDescription) modalDescription.textContent = description || '';
+    if (modalImage) { modalImage.style.display = image ? 'block' : 'none'; modalImage.src = image || ''; modalImage.alt = title || 'Gallery image'; }
+    modal.classList.add('open'); document.body.style.overflow = 'hidden';
+  }
+  function closeDetail() { if (modal) modal.classList.remove('open'); document.body.style.overflow = ''; if (modalImage) modalImage.src = ''; }
+  $('#modalClose')?.addEventListener('click', closeDetail);
+  modal?.addEventListener('click', e => { if (e.target === modal) closeDetail(); });
+  $$('.gallery-card').forEach(card => {
+    const open = () => openDetail(card.dataset.title, card.dataset.description, card.dataset.image || $('img',card)?.src || '');
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+  $$('.detail-btn').forEach(btn => btn.addEventListener('click', () => openDetail(btn.dataset.title, btn.dataset.info)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDetail(); window.closeLogin?.(); closeMenu(); } });
+ 
+  // Card cursor glow
+  if (window.matchMedia('(pointer:fine)').matches) {
+    $$('.hazard-card, .mission-grid .panel, .gallery-card, .team-card').forEach(card => {
+      card.addEventListener('pointermove', e => {
+        const r = card.getBoundingClientRect(); card.style.setProperty('--pointer-x', `${e.clientX-r.left}px`); card.style.setProperty('--pointer-y', `${e.clientY-r.top}px`);
+      });
+    });
+  }
+})();
+ 
+// ===== Feedback modal =====
+const feedbackModal = document.getElementById('feedbackModal');
+const openFeedbackBtn = document.getElementById('openFeedbackBtn');
+const closeFeedbackBtn = document.getElementById('closeFeedbackBtn');
+ 
+if (openFeedbackBtn && feedbackModal) {
+    openFeedbackBtn.addEventListener('click', () => { feedbackModal.style.display = 'flex'; });
+    closeFeedbackBtn.addEventListener('click', () => { feedbackModal.style.display = 'none'; });
+    window.addEventListener('click', (e) => { if (e.target === feedbackModal) feedbackModal.style.display = 'none'; });
+}
+ 
+// ===== LOCAL AUTHENTICATION (browser-only, persists across refresh) =====
+// Storage layout:
+//   localStorage  "aerovision_users"   -> { "email": { salt, hash, createdAt } }
+//   localStorage  "aerovision_session" -> logged-in user when "Remember me" is checked
+//   sessionStorage "aerovision_session" -> logged-in user when "Remember me" is unchecked
+// NOTE: This is front-end only and is NOT secure. For real accounts use a backend.
+const USERS_KEY = 'aerovision_users';
+const SESSION_KEY = 'aerovision_session';
+ 
+const loginModal = document.getElementById('loginModal');
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+const modalTitleText = document.getElementById('modalTitleText');
+const modalSubText = document.getElementById('modalSubText');
+const authSwitchText = document.getElementById('authSwitchText');
+const loginBtn = document.getElementById('loginBtn');
+const loginBtnText = document.getElementById('loginBtnText');
+const loginMessage = document.getElementById('loginMessage');
+const rememberMe = document.getElementById('rememberMe');
+ 
+// ---- storage helpers ----
+function readJSON(storage, key, fallback) {
+    try { const raw = storage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+    catch (err) { return fallback; }
+}
+function getUsers() { return readJSON(localStorage, USERS_KEY, {}); }
+function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+function getSession() {
+    return readJSON(localStorage, SESSION_KEY, null) || readJSON(sessionStorage, SESSION_KEY, null);
+}
+function clearSession() {
+    localStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(SESSION_KEY);
+}
+function saveSession(email, remember) {
+    clearSession();
+    const data = JSON.stringify({ email: email, loggedInAt: Date.now() });
+    (remember ? localStorage : sessionStorage).setItem(SESSION_KEY, data);
+}
+ 
+// ---- password hashing (SHA-256 + random salt; simple fallback if crypto.subtle is unavailable) ----
+function makeSalt() {
+    const bytes = new Uint8Array(12);
+    crypto.getRandomValues(bytes);
+    return Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+}
+async function hashPassword(password, salt) {
+    const data = salt + ':' + password;
+    if (window.crypto && crypto.subtle) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(data));
+        return Array.from(new Uint8Array(buf), b => b.toString(16).padStart(2, '0')).join('');
+    }
+    let h = 5381;
+    for (let i = 0; i < data.length; i++) h = ((h << 5) + h + data.charCodeAt(i)) | 0;
+    return 'fb' + (h >>> 0).toString(16);
+}
+ 
+// ---- UI helpers ----
+function setMessage(text, color) {
+    loginMessage.textContent = text;
+    loginMessage.style.color = color || '';
+}
+function displayName(email) {
+    return email.split('@')[0];
+}
+function updateLoginUI() {
+    const session = getSession();
+    if (session && session.email) {
+        loginBtnText.textContent = displayName(session.email);
+        loginBtn.dataset.signedIn = 'true';
+        loginBtn.title = 'Signed in as ' + session.email + ' (click to log out)';
+        loginBtn.setAttribute('aria-label', 'Account: ' + session.email + '. Click to log out');
+    } else {
+        loginBtnText.textContent = 'Login';
+        loginBtn.dataset.signedIn = 'false';
+        loginBtn.title = '';
+        loginBtn.setAttribute('aria-label', 'Login');
+    }
+}
+ 
+// ---- modal control (global so inline onclick handlers can use them) ----
+function openLogin() {
+    showLogin();
+    loginModal.classList.add('active');
+    loginModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => { const el = document.getElementById('loginEmail'); if (el) el.focus(); }, 80);
+}
+function closeLogin() {
+    loginModal.classList.remove('active');
+    loginModal.style.display = 'none';
+    document.body.style.overflow = '';
+    setMessage('');
+}
+function togglePassword() {
+    const input = document.getElementById('loginPassword');
+    const icon = document.querySelector('.password-toggle');
+    input.type = input.type === 'password' ? 'text' : 'password';
+    if (icon) icon.classList.toggle('fa-eye-slash', input.type === 'text');
+}
+function showSignup(e) {
+    if (e) e.preventDefault();
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'block';
+    modalTitleText.textContent = 'Create Account';
+    modalSubText.textContent = 'Sign up for a new AeroVision account';
+    authSwitchText.innerHTML = 'Already have an account? <a href="#" onclick="showLogin(event)">Login</a>';
+    setMessage('');
+}
+function showLogin(e) {
+    if (e) e.preventDefault();
+    signupForm.style.display = 'none';
+    loginForm.style.display = 'block';
+    modalTitleText.textContent = 'Welcome Back';
+    modalSubText.textContent = 'Login to your AeroVision account';
+    authSwitchText.innerHTML = 'Don\'t have an account? <a href="#" onclick="showSignup(event)">Sign up</a>';
+    setMessage('');
+}
+ 
+// ---- events ----
+loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLogin(); });
+ 
+// Header button: open the modal, or log out if already signed in
+loginBtn.addEventListener('click', () => {
+    if (loginBtn.dataset.signedIn === 'true') {
+        clearSession();
+        updateLoginUI();
+        if (window.showToast) window.showToast('You have been logged out.');
+    } else {
+        openLogin();
+    }
+});
+ 
+// Register
+signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+    const password = document.getElementById('signupPassword').value;
+ 
+    if (password.length < 6) {
+        setMessage('Password must be at least 6 characters.', '#dc3545');
+        return;
+    }
+    const users = getUsers();
+    if (users[email]) {
+        setMessage('Account already exists! Please login.', '#dc3545');
+        return;
+    }
+    const salt = makeSalt();
+    users[email] = { salt: salt, hash: await hashPassword(password, salt), createdAt: Date.now() };
+    saveUsers(users);
+ 
+    setMessage('Registration successful! You can now log in.', '#28a745');
+    signupForm.reset();
+    setTimeout(() => {
+        showLogin();
+        document.getElementById('loginEmail').value = email;
+        setMessage('Account created. Please login.', '#28a745');
+    }, 1200);
+});
+ 
+// Login
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const password = document.getElementById('loginPassword').value;
+ 
+    const user = getUsers()[email];
+    const ok = user && (await hashPassword(password, user.salt)) === user.hash;
+ 
+    if (!ok) {
+        setMessage('Invalid email or password.', '#dc3545');
+        return;
+    }
+    saveSession(email, rememberMe ? rememberMe.checked : true);
+    setMessage('Login successful!', '#28a745');
+    setTimeout(() => {
+        closeLogin();
+        updateLoginUI();
+        loginForm.reset();
+        if (rememberMe) rememberMe.checked = true;
+        if (window.showToast) window.showToast('Welcome to AeroVision, ' + displayName(email) + '!');
+    }, 700);
+});
+ 
+// Keep multiple tabs in sync (login/logout in one tab updates the others)
+window.addEventListener('storage', (e) => {
+    if (e.key === SESSION_KEY || e.key === null) updateLoginUI();
+});
+ 
+// Restore the logged-in state immediately on every page load / refresh
+updateLoginUI();
+// logo
+const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.getElementById('navMenu');
+
+menuToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+});
+</script>
+ <script src="script1.js"></script>
+</body>
+</html>
+ 
+

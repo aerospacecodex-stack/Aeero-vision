@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Password</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+
+  <!-- Wrapped header and box together inside a container -->
+  <div class="container">
+    <header>
+      <span>Aero</span><span>vision</span>
+      <p>Changing the password for this account</p>
+    </header>
+
+     <div class="login-form-section">
+            <form class="login-form" id="loginForm">
+           
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="name@example.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="At least 6 characters" minlength="6" required>
+                </div>
+
+                
+                <div class="input-group">
+                    <label for="password">Change Password</label>
+                    <input type="password" id="password" placeholder="At least 6 characters" minlength="6" required>
+                </div>
+
+                
+
+                <!-- Button is now INSIDE the form, no <a> around it -->
+                <button type="submit" class="submit-btn"><b>Sign in</b></button>
+            </form>
+        </div>
+    </div>
+<script>
+   document.getElementById("loginForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // stop the normal form submit
+
+            // The browser has already checked that email and password are filled
+            // and valid (because of "required", type="email" and minlength).
+            window.location.href = "index.html"; // your page name
+        });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmos Quiz</title>
+  <style>
+    :root {
+      --a: #a78bfa;
+      --b: #f472b6;
+      --c: #fbbf24;
+      --ok: #4ade80;
+      --bad: #fb7185;
+      --ink: #f3eeff
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #07040f;
+      color: var(--ink);
+      font-family: "Segoe UI", "Trebuchet MS", system-ui, sans-serif
+    }
+
+    #bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0
+    }
+
+    #fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9;
+      overflow: hidden
+    }
+
+    #fx i {
+      position: absolute;
+      top: -20px;
+      width: 9px;
+      height: 14px;
+      animation: fall linear forwards
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(720deg)
+      }
+    }
+
+    #hud {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      padding: 14px;
+      font-size: 14px;
+      color: #cbb8f0;
+      background: linear-gradient(#07040fee, transparent);
+      transition: .4s
+    }
+
+    #hud b {
+      color: var(--c);
+      font-size: 17px
+    }
+
+    .hide {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px)
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 16px 30px
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 18px;
+      width: min(640px, 100%)
+    }
+
+    .screen.on {
+      display: flex;
+      animation: enter .6s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    @keyframes enter {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(.97)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    h1,
+    h2 {
+      margin: 0
+    }
+
+    .title {
+      font-size: clamp(34px, 8vw, 64px);
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      line-height: 1.05;
+      background: linear-gradient(90deg, var(--c), var(--b), var(--a), var(--c));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: flow 6s linear infinite;
+      filter: drop-shadow(0 0 18px rgba(244, 114, 182, .4))
+    }
+
+    @keyframes flow {
+      to {
+        background-position: 300% 0
+      }
+    }
+
+    p {
+      margin: 0;
+      color: #cbb8f0;
+      line-height: 1.7
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 38px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--c), var(--b));
+      color: #1b0b2e;
+      font: 800 15px "Segoe UI", sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      box-shadow: 0 0 24px rgba(244, 114, 182, .5);
+      transition: transform .2s, box-shadow .2s
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .6) 50%, transparent 70%);
+      transform: translateX(-120%);
+      animation: shine 2.8s infinite
+    }
+
+    @keyframes shine {
+      to {
+        transform: translateX(120%)
+      }
+    }
+
+    .btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 40px rgba(251, 191, 36, .7)
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--a);
+      border: 1px solid var(--a);
+      box-shadow: none
+    }
+
+    .btn.ghost::after {
+      display: none
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center
+    }
+
+    /* solar system on start */
+    .solar {
+      position: relative;
+      width: 230px;
+      height: 230px;
+      margin-bottom: 6px
+    }
+
+    .sun {
+      position: absolute;
+      inset: 92px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff7c2, #ffb21f 50%, #e85d04);
+      box-shadow: 0 0 30px 10px rgba(255, 170, 40, .6);
+      animation: pulse 3s ease-in-out infinite alternate
+    }
+
+    @keyframes pulse {
+      to {
+        box-shadow: 0 0 46px 18px rgba(255, 170, 40, .75)
+      }
+    }
+
+    .ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border: 1px dashed rgba(255, 255, 255, .18);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) rotate(0);
+      animation: spin linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg)
+      }
+    }
+
+    .ring i {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      margin-left: -6px;
+      border-radius: 50%
+    }
+
+    /* quiz card */
+    .card {
+      width: 100%;
+      padding: 26px 22px;
+      border-radius: 24px;
+      border: 1.5px solid transparent;
+      text-align: left;
+      background: linear-gradient(rgba(20, 12, 40, .82), rgba(20, 12, 40, .82)) padding-box, linear-gradient(135deg, var(--a), var(--b), var(--c)) border-box;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .5)
+    }
+
+    .card.in {
+      animation: cardin .55s cubic-bezier(.2, 1.1, .3, 1)
+    }
+
+    @keyframes cardin {
+      from {
+        opacity: 0;
+        transform: translateX(60px) rotate(2deg)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #cbb8f0;
+      margin-bottom: 12px
+    }
+
+    .tag {
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(167, 139, 250, .2);
+      color: var(--c);
+      font-weight: 700
+    }
+
+    .timer {
+      height: 6px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, .1);
+      overflow: hidden;
+      margin-bottom: 18px
+    }
+
+    .timer div {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, var(--a), var(--b));
+      transition: width .1s linear, background .3s
+    }
+
+    .timer.low div {
+      background: linear-gradient(90deg, var(--bad), #f97316)
+    }
+
+    #qt {
+      font-size: clamp(19px, 4.6vw, 25px);
+      line-height: 1.4;
+      margin-bottom: 18px
+    }
+
+    .opts {
+      display: grid;
+      gap: 10px
+    }
+
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(167, 139, 250, .35);
+      background: rgba(255, 255, 255, .04);
+      color: inherit;
+      font: inherit;
+      font-size: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s, background .2s;
+      animation: optin .5s both
+    }
+
+    .opt:nth-child(2) {
+      animation-delay: .07s
+    }
+
+    .opt:nth-child(3) {
+      animation-delay: .14s
+    }
+
+    .opt:nth-child(4) {
+      animation-delay: .21s
+    }
+
+    @keyframes optin {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .opt b {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(167, 139, 250, .25);
+      color: var(--c);
+      font-size: 14px
+    }
+
+    .opt:hover:not(:disabled) {
+      transform: translateX(6px);
+      border-color: var(--c);
+      background: rgba(251, 191, 36, .08)
+    }
+
+    .opt:disabled {
+      cursor: default
+    }
+
+    .opt.ok {
+      border-color: var(--ok);
+      background: rgba(74, 222, 128, .15);
+      animation: glow .7s
+    }
+
+    .opt.ok b {
+      background: var(--ok);
+      color: #052e16
+    }
+
+    .opt.bad {
+      border-color: var(--bad);
+      background: rgba(251, 113, 133, .15);
+      animation: shake .45s
+    }
+
+    .opt.bad b {
+      background: var(--bad);
+      color: #4c0519
+    }
+
+    .opt.dim {
+      opacity: .4
+    }
+
+    @keyframes shake {
+      25% {
+        transform: translateX(-9px)
+      }
+
+      50% {
+        transform: translateX(9px)
+      }
+
+      75% {
+        transform: translateX(-5px)
+      }
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, .7)
+      }
+
+      100% {
+        box-shadow: 0 0 0 22px rgba(74, 222, 128, 0)
+      }
+    }
+
+    .fb {
+      display: none;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .05);
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e2d8fb;
+      animation: optin .4s both
+    }
+
+    .fb.on {
+      display: block
+    }
+
+    .fb h3 {
+      margin: 0 0 4px;
+      font-size: 16px
+    }
+
+    .fb .btn {
+      margin-top: 12px;
+      padding: 11px 28px;
+      font-size: 13px
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center
+    }
+
+    .dots i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .15);
+      transition: .3s
+    }
+
+    .dots i.cur {
+      background: var(--c);
+      transform: scale(1.3)
+    }
+
+    .dots i.ok {
+      background: var(--ok)
+    }
+
+    .dots i.bad {
+      background: var(--bad)
+    }
+
+    /* round result */
+    .ringwrap {
+      position: relative;
+      width: 170px;
+      height: 170px
+    }
+
+    .ringwrap svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg)
+    }
+
+    .ringwrap circle {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round
+    }
+
+    .ringwrap .bgc {
+      stroke: rgba(255, 255, 255, .1)
+    }
+
+    .ringwrap .fgc {
+      stroke: url(#g);
+      stroke-dasharray: 339.3;
+      stroke-dashoffset: 339.3;
+      transition: stroke-dashoffset 1.4s cubic-bezier(.2, .8, .2, 1) .3s;
+      filter: drop-shadow(0 0 8px var(--b))
+    }
+
+    .ringwrap .num {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--c)
+    }
+
+    .ringwrap .num small {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbb8f0;
+      text-align: center;
+      margin-top: -6px
+    }
+
+    .stars {
+      font-size: 34px;
+      letter-spacing: 6px;
+      color: rgba(255, 255, 255, .15)
+    }
+
+    .stars span {
+      display: inline-block
+    }
+
+    .stars span.on {
+      color: var(--c);
+      text-shadow: 0 0 14px var(--c);
+      animation: starpop .6s cubic-bezier(.2, 1.8, .4, 1) both
+    }
+
+    @keyframes starpop {
+      from {
+        transform: scale(0) rotate(-90deg)
+      }
+
+      to {
+        transform: none
+      }
+    }
+
+    .rank {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--b)
+    }
+
+    .list {
+      width: 100%;
+      display: grid;
+      gap: 8px;
+      text-align: left
+    }
+
+    .list div {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .05);
+      font-size: 14px;
+      animation: optin .5s both
+    }
+
+    .list div:nth-child(2) {
+      animation-delay: .08s
+    }
+
+    .list div:nth-child(3) {
+      animation-delay: .16s
+    }
+
+    .list div:nth-child(4) {
+      animation-delay: .24s
+    }
+
+    .list div:nth-child(5) {
+      animation-delay: .32s
+    }
+
+    .list em {
+      flex: none;
+      font-style: normal;
+      font-weight: 800
+    }
+
+    .list .ok em {
+      color: var(--ok)
+    }
+
+    .list .bad em {
+      color: var(--bad)
+    }
+
+    .stats {
+      display: flex;
+      gap: 26px;
+      justify-content: center;
+      color: #cbb8f0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .1em
+    }
+
+    .stats b {
+      display: block;
+      font-size: 24px;
+      color: var(--c);
+      letter-spacing: 0
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="bg"></canvas>
+  <div id="fx"></div>
+  <header id="hud" class="hide">
+    <div>Round <b id="hr">1</b></div>
+    <div>Score <b id="hs">0</b></div>
+    <div>Streak <b id="hk">0</b></div>
+  </header>
+  <main>
+    <section id="start" class="screen on">
+      <div class="solar">
+        <div class="sun"></div>
+        <div class="ring" style="width:90px;height:90px;animation-duration:5s"><i style="background:#a8a39c"></i></div>
+        <div class="ring" style="width:140px;height:140px;animation-duration:9s"><i style="background:#2f6fdb"></i>
+        </div>
+        <div class="ring" style="width:190px;height:190px;animation-duration:14s"><i style="background:#c1440e"></i>
+        </div>
+        <div class="ring" style="width:230px;height:230px;animation-duration:22s"><i
+            style="background:#d8ca9d;width:16px;height:16px;margin-left:-8px;top:-8px"></i></div>
+      </div>
+      <h1 class="title">Cosmos Quiz</h1>
+      <p>Test your knowledge of space and the astronomers who explored it.<br>Answer 5 questions, see your round
+        results, then get 5 brand-new ones.</p>
+      <button class="btn" id="startBtn">Launch</button>
+      <p id="bestLine"></p>
+    </section>
+    <section id="quiz" class="screen">
+      <div class="dots" id="dots"></div>
+      <div class="card in" id="card">
+        <div class="meta"><span class="tag" id="cat"></span><span id="qn"></span><span id="sec"></span></div>
+        <div class="timer" id="timer">
+          <div></div>
+        </div>
+        <h2 id="qt"></h2>
+        <div class="opts" id="opts"></div>
+        <div class="fb" id="fb">
+          <h3 id="fbh"></h3><span id="fbt"></span><br><button class="btn" id="nextBtn">Next</button>
+        </div>
+      </div>
+    </section>
+    <section id="round" class="screen">
+      <h1 class="title" style="font-size:clamp(26px,6vw,40px)" id="rtitle">Round Complete</h1>
+      <div class="ringwrap">
+        <svg viewBox="0 0 120 120">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fbbf24" />
+              <stop offset="1" stop-color="#f472b6" />
+            </linearGradient>
+          </defs>
+          <circle class="bgc" cx="60" cy="60" r="54" />
+          <circle class="fgc" id="fgc" cx="60" cy="60" r="54" />
+        </svg>
+        <div class="num">
+          <div><span id="rnum">0</span>/5<small>correct</small></div>
+        </div>
+      </div>
+      <div class="stars" id="rstars"></div>
+      <div class="rank" id="rrank"></div>
+      <div class="stats">
+        <div><b id="rpts">0</b>round points</div>
+        <div><b id="rtot">0</b>total score</div>
+      </div>
+      <div class="list" id="rlist"></div>
+      <div class="row"><button class="btn" id="moreBtn">Next 5 questions</button><button class="btn ghost"
+          id="endBtn">Finish quiz</button></div>
+    </section>
+    <section id="final" class="screen">
+      <h1 class="title">Mission Complete</h1>
+      <div class="rank" id="frank"></div>
+      <div class="stats">
+        <div><b id="fscore">0</b>final score</div>
+        <div><b id="facc">0%</b>accuracy</div>
+        <div><b id="fbest">0</b>best score</div>
+      </div>
+      <p id="fmsg"></p>
+      <button class="btn" id="againBtn">Play again</button>
+    </section>
+  </main>
+  <script>
+    // category, question, options, correct index, fun fact
+    const Q = [
+      ["Space", "Which planet has the most known moons?", ["Jupiter", "Saturn", "Uranus", "Neptune"], 1, "Saturn has well over 100 confirmed moons, and new ones keep being found."],
+      ["Space", "Which is the hottest planet in the solar system?", ["Mercury", "Venus", "Mars", "Jupiter"], 1, "Venus's thick carbon dioxide atmosphere traps heat, keeping the surface around 465°C."],
+      ["Space", "What is the closest star to Earth?", ["Proxima Centauri", "Sirius", "The Sun", "Alpha Centauri A"], 2, "The Sun is about 150 million km away. The next closest star is over 4 light-years away."],
+      ["Space", "About how long does sunlight take to reach Earth?", ["8 seconds", "8 minutes", "8 hours", "8 days"], 1, "Sunlight takes roughly 8 minutes and 20 seconds to travel to us."],
+      ["Space", "Which is the largest planet in our solar system?", ["Saturn", "Neptune", "Jupiter", "Earth"], 2, "Jupiter is so big that more than 1,300 Earths could fit inside it."],
+      ["Space", "What is Olympus Mons on Mars?", ["A deep canyon", "The largest volcano known in the solar system", "A giant crater", "A polar ice cap"], 1, "Olympus Mons is about three times taller than Mount Everest."],
+      ["Space", "What is a light-year a unit of?", ["Time", "Speed", "Distance", "Brightness"], 2, "One light-year is the distance light travels in a year, about 9.46 trillion km."],
+      ["Space", "Which planet is called the Red Planet?", ["Venus", "Mars", "Mercury", "Saturn"], 1, "Iron oxide, basically rust, gives Mars its red color."],
+      ["Space", "What is the name of our galaxy?", ["Andromeda", "Triangulum", "Milky Way", "Whirlpool"], 2, "The Milky Way holds hundreds of billions of stars."],
+      ["Space", "What is the boundary around a black hole called, beyond which nothing can escape?", ["Photon sphere", "Event horizon", "Singularity", "Accretion disk"], 1, "Past the event horizon even light cannot get out."],
+      ["Space", "Which planet rotates on its side?", ["Uranus", "Neptune", "Venus", "Mars"], 0, "Uranus is tilted by about 98 degrees, so it rolls around the Sun like a ball."],
+      ["Space", "What is Jupiter's Great Red Spot?", ["A volcano", "A giant storm", "An ocean", "A crater"], 1, "The storm has raged for at least a few hundred years and is larger than Earth."],
+      ["Astronomers", "Who first used a telescope to discover Jupiter's four large moons in 1610?", ["Galileo Galilei", "Johannes Kepler", "Isaac Newton", "Tycho Brahe"], 0, "Those moons, Io, Europa, Ganymede and Callisto, are called the Galilean moons."],
+      ["Astronomers", "Who proposed that the Earth orbits the Sun in his 1543 book?", ["Ptolemy", "Nicolaus Copernicus", "Aristotle", "Galileo"], 1, "Copernicus's heliocentric model started the Scientific Revolution in astronomy."],
+      ["Astronomers", "Who discovered the three laws of planetary motion?", ["Johannes Kepler", "Edmond Halley", "Carl Sagan", "Edwin Hubble"], 0, "Kepler showed that planets move in ellipses, not perfect circles."],
+      ["Astronomers", "Which astronomer showed in 1929 that the universe is expanding?", ["Edwin Hubble", "Fred Hoyle", "Stephen Hawking", "Clyde Tombaugh"], 0, "Hubble found that distant galaxies are moving away, and the faster, the farther they are."],
+      ["Astronomers", "Who discovered the planet Uranus in 1781?", ["William Herschel", "Percival Lowell", "Giovanni Cassini", "Galileo"], 0, "Herschel was the first person to discover a planet with a telescope."],
+      ["Astronomers", "Who discovered Pluto in 1930?", ["Clyde Tombaugh", "Edwin Hubble", "Carl Sagan", "Gerard Kuiper"], 0, "Tombaugh found Pluto by comparing photographic plates night after night."],
+      ["Astronomers", "Who developed the theory of general relativity in 1915?", ["Isaac Newton", "Albert Einstein", "Niels Bohr", "Max Planck"], 1, "General relativity describes gravity as the curving of space and time."],
+      ["Astronomers", "Which astronomer discovered that stars are made mostly of hydrogen and helium?", ["Cecilia Payne-Gaposchkin", "Annie Jump Cannon", "Vera Rubin", "Caroline Herschel"], 0, "Her 1925 thesis was called one of the most brilliant in astronomy, yet it was doubted at first."],
+      ["Astronomers", "Which astronomer correctly predicted the return of a famous comet in 1758?", ["Edmond Halley", "Tycho Brahe", "Ptolemy", "Johannes Kepler"], 0, "The comet now carries his name and returns about every 76 years."],
+      ["Astronomers", "Who discovered the first pulsars in 1967?", ["Jocelyn Bell Burnell", "Vera Rubin", "Henrietta Leavitt", "Carolyn Shoemaker"], 0, "Pulsars are rapidly spinning neutron stars that sweep beams of radio waves across space."],
+      ["Astronomers", "Who formulated the law of universal gravitation?", ["Isaac Newton", "Galileo Galilei", "Johannes Kepler", "Robert Hooke"], 0, "Newton showed that the force pulling an apple down also keeps the Moon in orbit."],
+      ["Astronomers", "Which ancient Greek scholar estimated the size of the Earth around 240 BC?", ["Eratosthenes", "Pythagoras", "Plato", "Euclid"], 0, "He compared shadows in two Egyptian cities and got a result close to the real value."],
+      ["Astronomers", "Whose discovery of the period-luminosity relation of Cepheid stars helped measure cosmic distances?", ["Henrietta Leavitt", "Maria Mitchell", "Jocelyn Bell Burnell", "Carl Sagan"], 0, "Hubble later used her method to measure the distance to the Andromeda galaxy."],
+      ["Astronomers", "Who is credited with describing Saturn's rings as a thin flat ring and discovering the moon Titan?", ["Christiaan Huygens", "Giovanni Cassini", "William Herschel", "Galileo Galilei"], 0, "Huygens found Titan in 1655."],
+      ["Astronomers", "Which astronomer hosted the famous TV series Cosmos in 1980?", ["Neil Armstrong", "Carl Sagan", "Patrick Moore", "Brian Cox"], 1, "Sagan's series inspired millions of people to take an interest in science."],
+      ["Space", "Which space telescope launched in December 2021?", ["Hubble", "Kepler", "James Webb", "Spitzer"], 2, "The James Webb Space Telescope observes the universe mainly in infrared light."],
+      ["Space", "What was the first artificial satellite, launched in 1957?", ["Explorer 1", "Sputnik 1", "Vostok 1", "Apollo 1"], 1, "Sputnik 1 began the space age and the space race."],
+      ["Space", "Who was the first human to travel into space?", ["Neil Armstrong", "Alan Shepard", "Yuri Gagarin", "Buzz Aldrin"], 2, "Gagarin orbited Earth on 12 April 1961, a flight of about 108 minutes."]
+    ];
+    const $ = s => document.querySelector(s);
+    let pool, round, qi, cur, res, opts, locked, score, streak, rpts, totalOk, totalQ, timeLeft, tm;
+    let best = 0; try { best = +localStorage.getItem('cqBest') || 0 } catch (e) { }
+    const shuf = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0;[a[i], a[j]] = [a[j], a[i]] } return a };
+    const go = id => { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); $('#hud').classList.toggle('hide', id === 'start'); scrollTo(0, 0); };
+    function countUp(el, to, ms = 900) { const t0 = performance.now(); (function f(n) { const k = Math.min(1, (n - t0) / ms); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f) })(t0) }
+    function confetti() {
+      const f = $('#fx'), cols = ['#fbbf24', '#f472b6', '#a78bfa', '#4ade80', '#60a5fa'];
+      for (let i = 0; i < 70; i++) { const e = document.createElement('i'); e.style.left = Math.random() * 100 + 'vw'; e.style.background = cols[i % 5]; e.style.animationDuration = (2 + Math.random() * 2.5) + 's'; e.style.animationDelay = Math.random() * .6 + 's'; e.style.borderRadius = Math.random() < .5 ? '50%' : '2px'; f.appendChild(e); setTimeout(() => e.remove(), 5500); }
+    }
+
+    function begin() { pool = shuf(Q.slice()); round = 0; score = 0; streak = 0; totalOk = 0; totalQ = 0; $('#hs').textContent = 0; $('#hk').textContent = 0; startRound(); }
+    function startRound() { if (pool.length < 5) return finish(); round++; cur = pool.splice(0, 5); qi = 0; res = []; rpts = 0; $('#hr').textContent = round; go('quiz'); showQ(); }
+    function showQ() {
+      const q = cur[qi]; locked = false; opts = shuf(q[2].map((t, i) => ({ t, ok: i === q[3] })));
+      $('#cat').textContent = q[0]; $('#qn').textContent = 'Question ' + (qi + 1) + ' of 5'; $('#qt').textContent = q[1];
+      $('#dots').innerHTML = [0, 1, 2, 3, 4].map(i => '<i class="' + (i < qi ? (res[i].ok ? 'ok' : 'bad') : i === qi ? 'cur' : '') + '"></i>').join('');
+      $('#opts').innerHTML = opts.map((o, i) => '<button class="opt" data-i="' + i + '"><b>' + 'ABCD'[i] + '</b>' + o.t + '</button>').join('');
+      $('#opts').querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
+      $('#fb').classList.remove('on');
+      const c = $('#card'); c.classList.remove('in'); void c.offsetWidth; c.classList.add('in');
+      timeLeft = 20; tick(); clearInterval(tm); tm = setInterval(() => { timeLeft -= .1; tick(); if (timeLeft <= 0) answer(-1); }, 100);
+    }
+    function tick() { const t = Math.max(0, timeLeft); $('#timer div').style.width = (t / 20 * 100) + '%'; $('#timer').classList.toggle('low', t < 6); $('#sec').textContent = Math.ceil(t) + 's'; }
+    function answer(i) {
+      if (locked) return; locked = true; clearInterval(tm);
+      const q = cur[qi], ok = i >= 0 && opts[i].ok;
+      $('#opts').querySelectorAll('.opt').forEach((b, k) => { b.disabled = true; if (opts[k].ok) b.classList.add('ok'); else if (k === i) b.classList.add('bad'); else b.classList.add('dim'); });
+      let pts = 0;
+      if (ok) { streak++; pts = 100 + Math.round(Math.max(0, timeLeft) / 20 * 50) + (streak > 1 ? (streak - 1) * 10 : 0); score += pts; rpts += pts; } else streak = 0;
+      totalQ++; if (ok) totalOk++;
+      res.push({ ok, ans: q[2][q[3]], q: q[1] });
+      $('#hs').textContent = score; $('#hk').textContent = streak;
+      $('#dots').children[qi].className = ok ? 'ok' : 'bad';
+      $('#fbh').textContent = ok ? 'Correct! +' + pts + ' points' : (i < 0 ? 'Time is up!' : 'Not quite.') + ' Answer: ' + q[2][q[3]];
+      $('#fbh').style.color = ok ? '#4ade80' : '#fb7185';
+      $('#fbt').textContent = q[4]; $('#nextBtn').textContent = qi < 4 ? 'Next question' : 'See round results';
+      $('#fb').classList.add('on');
+      if (ok) beepOk();
+    }
+    function next() { qi++; if (qi < 5) showQ(); else showRound(); }
+    function rankOf(n) { return n === 5 ? 'Cosmic Genius' : n === 4 ? 'Astronomer' : n === 3 ? 'Stargazer' : n === 2 ? 'Space Cadet' : 'Rookie Explorer'; }
+    function showRound() {
+      const n = res.filter(r => r.ok).length; go('round');
+      $('#rtitle').textContent = 'Round ' + round + ' Complete';
+      $('#rrank').textContent = rankOf(n); $('#rtot').textContent = score; countUp($('#rpts'), rpts);
+      $('#rnum').textContent = 0; countUp($('#rnum'), n, 1200);
+      const fg = $('#fgc'); fg.style.transition = 'none'; fg.style.strokeDashoffset = 339.3; void fg.getBoundingClientRect(); fg.style.transition = ''; fg.style.strokeDashoffset = 339.3 * (1 - n / 5);
+      const stars = n >= 5 ? 3 : n >= 3 ? 2 : n >= 1 ? 1 : 0;
+      $('#rstars').innerHTML = [0, 1, 2].map(i => '<span class="' + (i < stars ? 'on' : '') + '" style="animation-delay:' + (.6 + i * .3) + 's">★</span>').join('');
+      $('#rlist').innerHTML = res.map(r => '<div class="' + (r.ok ? 'ok' : 'bad') + '"><em>' + (r.ok ? '✓' : '✗') + '</em><span>' + r.ans + '</span></div>').join('');
+      const more = pool.length >= 5; $('#moreBtn').style.display = more ? '' : 'none';
+      if (!more) $('#endBtn').textContent = 'See final results'; else $('#endBtn').textContent = 'Finish quiz';
+      if (n >= 4) setTimeout(confetti, 500);
+    }
+    function finish() {
+      go('final'); const acc = totalQ ? Math.round(totalOk / totalQ * 100) : 0;
+      const nb = score > best; if (nb) { best = score; try { localStorage.setItem('cqBest', best) } catch (e) { } }
+      countUp($('#fscore'), score, 1400); $('#facc').textContent = acc + '%'; $('#fbest').textContent = best;
+      $('#frank').textContent = acc >= 90 ? 'Legendary Astronomer' : acc >= 70 ? 'Seasoned Astronomer' : acc >= 50 ? 'Rising Star' : 'Curious Explorer';
+      $('#fmsg').textContent = (nb ? 'New best score! ' : '') + 'You answered ' + totalOk + ' of ' + totalQ + ' questions correctly over ' + round + ' round' + (round > 1 ? 's' : '') + '.';
+      if (acc >= 70) setTimeout(confetti, 400);
+    }
+    $('#startBtn').onclick = begin; $('#againBtn').onclick = begin; $('#nextBtn').onclick = next; $('#moreBtn').onclick = startRound; $('#endBtn').onclick = finish;
+    $('#bestLine').textContent = best ? 'Best score: ' + best : '';
+    addEventListener('keydown', e => {
+      if ($('#quiz').classList.contains('on')) {
+        if (!locked && '1234'.includes(e.key) && e.key) answer(+e.key - 1);
+        else if (!locked && /^[a-d]$/i.test(e.key)) answer('abcd'.indexOf(e.key.toLowerCase()));
+        else if (locked && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); next(); }
+      }
+    });
+    let A = null; function beepOk() { try { A = A || new (window.AudioContext || window.webkitAudioContext)(); const o = A.createOscillator(), g = A.createGain(), n = A.currentTime; o.type = 'sine'; o.frequency.setValueAtTime(660, n); o.frequency.exponentialRampToValueAtTime(990, n + .12); g.gain.setValueAtTime(.05, n); g.gain.exponentialRampToValueAtTime(.001, n + .25); o.connect(g); g.connect(A.destination); o.start(); o.stop(n + .25); } catch (e) { } }
+    // starfield with shooting stars
+    const cv = $('#bg'), cx = cv.getContext('2d'); let W, H; const st = Array.from({ length: 140 }, () => ({ x: Math.random(), y: Math.random(), z: Math.random() * 1.6 + .3, p: Math.random() * 6 })); let sh = [];
+    function rs() { const d = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0); } addEventListener('resize', rs); rs();
+    (function loop(t) {
+      t /= 1000; const g = cx.createRadialGradient(W * .3, H * .2, 0, W * .3, H * .2, Math.max(W, H)); g.addColorStop(0, '#2a1050'); g.addColorStop(.5, '#0d0820'); g.addColorStop(1, '#05030c'); cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+      const n = cx.createRadialGradient(W * (.75 + Math.sin(t * .1) * .05), H * .75, 0, W * .75, H * .75, Math.max(W, H) * .5); n.addColorStop(0, 'rgba(190,24,93,.2)'); n.addColorStop(1, 'rgba(190,24,93,0)'); cx.fillStyle = n; cx.fillRect(0, 0, W, H);
+      cx.fillStyle = '#fff'; for (const s of st) { cx.globalAlpha = .35 + .45 * Math.sin(t * s.z * 1.5 + s.p); s.y = (s.y + s.z * .00004) % 1; cx.fillRect(s.x * W, s.y * H, s.z, s.z); } cx.globalAlpha = 1;
+      if (Math.random() < .008) sh.push({ x: Math.random() * W, y: Math.random() * H * .4, l: 1 });
+      cx.lineCap = 'round'; for (const s of sh) { cx.strokeStyle = 'rgba(255,255,255,' + s.l + ')'; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(s.x, s.y); cx.lineTo(s.x - 90 * s.l, s.y - 45 * s.l); cx.stroke(); s.x += 9; s.y += 4.5; s.l -= .02; }
+      sh = sh.filter(s => s.l > 0); requestAnimationFrame(loop);
+    })(0);
+  </script>
+</body>
+
+</html>
